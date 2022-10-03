@@ -49,9 +49,9 @@ public class PlayerServiceImpl implements PlayerService {
         repository.deleteById(id);
     }
 
-    private void findByEmail(PlayerDTO obj){
+    private void findByEmail(PlayerDTO obj) {
         Optional<Player> usuario = repository.findByEmail(obj.getEmail());
-        if(usuario.isPresent() && usuario.get().getId().equals(obj.getId())){
+        if (usuario.isPresent() && usuario.get().getId().equals(obj.getId())) {
             throw new ObjectNotFoundException("E-mail já cadastrado no sistema");
         }
     }
