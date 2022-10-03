@@ -23,9 +23,10 @@ import static org.mockito.Mockito.when;
 class PlayerServiceImplTest {
 
     public static final Integer ID = 1;
-       public static final String NAME = "Valdir";
+    public static final String NAME = "Valdir";
     public static final String EMAIL = "valdir@gmail.com";
     public static final String PASSWORD = "123";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     @InjectMocks
     private PlayerServiceImpl service;
 
@@ -58,14 +59,14 @@ class PlayerServiceImplTest {
     }
 
     @Test
-    void whenFinByIdThenReturnAnObjectNotFoundException(){
-        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+    void whenFinByIdThenReturnAnObjectNotFoundException() {
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
 
-        try{
+        try {
             service.findById(ID);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals("Objeto não encontrado", ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
     }
 
