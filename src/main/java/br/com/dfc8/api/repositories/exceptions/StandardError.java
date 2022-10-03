@@ -1,4 +1,4 @@
-package br.com.dfc8.api.resources.exceptions;
+package br.com.dfc8.api.repositories.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package br.com.dfc8.api.resources.exceptions;
+package br.com.dfc8.api.repositories.exceptions;
 
 import br.com.dfc8.api.services.exceptions.DataIntegratyVaiolationException;
 import br.com.dfc8.api.services.exceptions.ObjectNotFoundException;

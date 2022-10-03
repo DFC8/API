@@ -1,7 +1,7 @@
 package br.com.dfc8.api.config;
 
-import br.com.dfc8.api.domain.Usuario;
-import br.com.dfc8.api.repositories.UsuarioRepository;
+import br.com.dfc8.api.domain.Player;
+import br.com.dfc8.api.repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +14,12 @@ import java.util.List;
 public class LocalConfig {
 
     @Autowired
-    private UsuarioRepository repository;
+    private PlayerRepository repository;
 
     @Bean
     public void startDB() {
-    Usuario u1 = new Usuario(null, "Darckson", "dfc@gamil.com", "123");
-    Usuario u2 = new Usuario(null, "Ana", "ana@gamil.com", "123");
+    Player u1 = new Player(null, "Darckson", "dfc@gamil.com", "123");
+    Player u2 = new Player(null, "Ana", "ana@gamil.com", "123");
 
     repository.saveAll(List.of(u1, u2));
     }

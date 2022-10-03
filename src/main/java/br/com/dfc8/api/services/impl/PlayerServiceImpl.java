@@ -1,9 +1,9 @@
 package br.com.dfc8.api.services.impl;
 
-import br.com.dfc8.api.domain.Usuario;
-import br.com.dfc8.api.domain.dto.UsuarioDTO;
-import br.com.dfc8.api.repositories.UsuarioRepository;
-import br.com.dfc8.api.services.UsuarioService;
+import br.com.dfc8.api.domain.Player;
+import br.com.dfc8.api.domain.dto.PlayerDTO;
+import br.com.dfc8.api.repositories.PlayerRepository;
+import br.com.dfc8.api.services.PlayerService;
 import br.com.dfc8.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,34 +13,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private PlayerRepository repository;
 
     @Autowired
     private ModelMapper mapper;
 
     @Override
-    public Usuario findById(Integer id) {
-        Optional<Usuario> obj = repository.findById(id);
+    public Player findById(Integer id) {
+        Optional<Player> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
-    public List<Usuario> findAll() {
+    public List<Player> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Usuario create(UsuarioDTO obj) {
+    public Player create(PlayerDTO obj) {
         findByEmail(obj);
-        return repository.save(mapper.map(obj, Usuario.class));
+        return repository.save(mapper.map(obj, Player.class));
     }
 
     @Override
-    public Usuario update(UsuarioDTO obj) {
+    public Player update(PlayerDTO obj) {
         findByEmail(obj);
-        return repository.save(mapper.map(obj, Usuario.class));
+        return repository.save(mapper.map(obj, Player.class));
     }
 
     @Override
@@ -49,8 +49,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         repository.deleteById(id);
     }
 
-    private void findByEmail(UsuarioDTO obj){
-        Optional<Usuario> usuario = repository.findByEmail(obj.getEmail());
+    private void findByEmail(PlayerDTO obj){
+        Optional<Player> usuario = repository.findByEmail(obj.getEmail());
         if(usuario.isPresent() && usuario.get().getId().equals(obj.getId())){
             throw new ObjectNotFoundException("E-mail já cadastrado no sistema");
         }

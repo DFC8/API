@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Usuario {
+public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
