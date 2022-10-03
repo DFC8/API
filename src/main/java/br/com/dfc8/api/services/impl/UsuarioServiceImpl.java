@@ -33,6 +33,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario create(UsuarioDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, Usuario.class));
+    }
+
+    private void findByEmail(UsuarioDTO obj){
+        Optional<Usuario> usuario = repository.findByEmail(obj.getEmail());
+        if(usuario.isPresent()){
+            throw new ObjectNotFoundException("E-mail já cadastrado no sistema");
+        }
     }
 }
