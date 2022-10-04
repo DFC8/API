@@ -115,7 +115,17 @@ class PlayerServiceImplTest {
         }
     }
     @Test
-    void update() {
+    void whenUpdateThenReturnAnDateIntegrityViolationException() {
+        when(repository.save(any())).thenReturn(player);
+
+        Player response = service.update(playerDTO);
+
+        assertNotNull(response);
+        assertEquals(Player.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(NAME, response.getName());
+        assertEquals(PASSWORD, response.getPassword());
     }
 
     @Test
