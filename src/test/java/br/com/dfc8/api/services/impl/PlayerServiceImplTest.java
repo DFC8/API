@@ -3,6 +3,7 @@ package br.com.dfc8.api.services.impl;
 import br.com.dfc8.api.domain.Player;
 import br.com.dfc8.api.domain.dto.PlayerDTO;
 import br.com.dfc8.api.repositories.PlayerRepository;
+import br.com.dfc8.api.services.exceptions.DataIntegratyVaiolationException;
 import br.com.dfc8.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -49,7 +50,6 @@ class PlayerServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnPlayerInstance() {
-        when(repository.findById(anyInt())).thenReturn(optionalPlayer);
 
         Player response = service.findById(ID);
 
@@ -74,7 +74,7 @@ class PlayerServiceImplTest {
 
     @Test
     void whenFindAllThenReturnAnListOfPlayer() {
-        when(repository.findAll()).thenReturn(List.of(player));
+        when(repository.findById(anyInt())).thenReturn(optionalPlayer);
 
         List<Player> reponse = service.findAll();
 
@@ -89,9 +89,31 @@ class PlayerServiceImplTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnAnDateIntegrityViolationException() {
+        when(repository.save(any())).thenReturn(player);
+
+        Player response = service.create(playerDTO);
+
+        assertNotNull(response);
+        assertEquals(Player.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(NAME, response.getName());
+        assertEquals(PASSWORD, response.getPassword());
     }
 
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalPlayer);
+
+        try{
+            optionalPlayer.get().setId(2);
+            service.create(playerDTO);
+        } catch (Exception ex) {
+            assertEquals(DataIntegratyVaiolationException.class, ex.getClass());
+            assertEquals("E-mail já cadastrado no sistema", ex.getMessage());
+        }
+    }
     @Test
     void update() {
     }
