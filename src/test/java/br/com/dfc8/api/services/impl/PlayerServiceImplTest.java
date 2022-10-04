@@ -30,6 +30,7 @@ class PlayerServiceImplTest {
     public static final String PASSWORD = "123";
     public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     public static final int INDEX = 0;
+    public static final String E_MAIL_JA_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
     @InjectMocks
     private PlayerServiceImpl service;
 
@@ -76,16 +77,16 @@ class PlayerServiceImplTest {
     void whenFindAllThenReturnAnListOfPlayer() {
         when(repository.findById(anyInt())).thenReturn(optionalPlayer);
 
-        List<Player> reponse = service.findAll();
+        List<Player> response = service.findAll();
 
-        assertNotNull(reponse);
-        assertEquals(1,reponse.size());
-        assertEquals(Player.class, reponse.get(INDEX).getClass());
+        assertNotNull(response);
+        assertEquals(1,response.size());
+        assertEquals(Player.class, response.get(INDEX).getClass());
 
-        assertEquals(ID, reponse.get(INDEX).getId());
-        assertEquals(NAME, reponse.get(INDEX).getName());
-        assertEquals(EMAIL, reponse.get(INDEX).getEmail());
-        assertEquals(PASSWORD, reponse.get(INDEX).getPassword());
+        assertEquals(ID, response.get(INDEX).getId());
+        assertEquals(NAME, response.get(INDEX).getName());
+        assertEquals(EMAIL, response.get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.get(INDEX).getPassword());
     }
 
     @Test
@@ -111,7 +112,7 @@ class PlayerServiceImplTest {
             service.create(playerDTO);
         } catch (Exception ex) {
             assertEquals(DataIntegratyVaiolationException.class, ex.getClass());
-            assertEquals("E-mail já cadastrado no sistema", ex.getMessage());
+            assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
         }
     }
     @Test
@@ -128,6 +129,18 @@ class PlayerServiceImplTest {
         assertEquals(PASSWORD, response.getPassword());
     }
 
+    @Test
+    void whenUpdateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalPlayer);
+
+        try{
+            optionalPlayer.get().setId(2);
+            service.create(playerDTO);
+        } catch (Exception ex) {
+            assertEquals(DataIntegratyVaiolationException.class, ex.getClass());
+            assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
+        }
+    }
     @Test
     void delete() {
     }
