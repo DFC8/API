@@ -4,6 +4,7 @@ import br.com.dfc8.api.domain.Player;
 import br.com.dfc8.api.domain.dto.PlayerDTO;
 import br.com.dfc8.api.repositories.PlayerRepository;
 import br.com.dfc8.api.services.PlayerService;
+import br.com.dfc8.api.services.exceptions.DataIntegratyVaiolationException;
 import br.com.dfc8.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     private void findByEmail(PlayerDTO obj) {
-        Optional<Player> usuario = repository.findByEmail(obj.getEmail());
-        if (usuario.isPresent() && usuario.get().getId().equals(obj.getId())) {
-            throw new ObjectNotFoundException("E-mail já cadastrado no sistema");
+        Optional<Player> player = repository.findByEmail(obj.getEmail());
+        if (player.isPresent() && !player.get().getId().equals(obj.getId())) {
+            throw new DataIntegratyVaiolationException("E-mail já cadastrado no sistema");
         }
     }
 }

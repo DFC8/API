@@ -49,7 +49,7 @@ public class PlayerResources {
     }
 
     @DeleteMapping(value = ID)
-    public ResponseEntity<PlayerDTO> delelete(@PathVariable Integer id){
+    public ResponseEntity<PlayerDTO> delete(@PathVariable Integer id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
