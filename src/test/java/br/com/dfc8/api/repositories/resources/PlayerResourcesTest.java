@@ -88,7 +88,14 @@ class PlayerResourcesTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnCreate() {
+        when(service.create(any())).thenReturn(player);
+
+        ResponseEntity<PlayerDTO> response = resources.create(playerDTO);
+
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getHeaders().get("Location"));
     }
 
     @Test
