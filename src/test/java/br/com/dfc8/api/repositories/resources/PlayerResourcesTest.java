@@ -99,7 +99,21 @@ class PlayerResourcesTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(service.update(playerDTO)).thenReturn(player);
+        when(mapper.map(any(), any())).thenReturn(playerDTO);
+
+        ResponseEntity<PlayerDTO> response = resources.update(ID, playerDTO);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(PlayerDTO.class, response.getBody().getClass());
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
     }
 
     @Test
