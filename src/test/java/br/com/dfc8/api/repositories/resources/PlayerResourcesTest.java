@@ -31,8 +31,8 @@ class PlayerResourcesTest {
     public static final String EMAIL = "valdir@gmail.com";
     public static final String PASSWORD = "123";
 
-    private Player player;
-    private PlayerDTO playerDTO;
+    private Player player = new Player();
+    private PlayerDTO playerDTO = new PlayerDTO();
 
     @InjectMocks
     private PlayerResources resources;
